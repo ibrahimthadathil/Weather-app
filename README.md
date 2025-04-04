@@ -1,3 +1,9 @@
+# weather app 
+features :- 
+- search by city 
+- search by ZIp code.
+- voice search
+- 
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
