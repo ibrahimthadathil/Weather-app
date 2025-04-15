@@ -21,8 +21,8 @@ body {
 }
 
 .weather-container {
-  display: flex;
-  justify-content: center;
+  /* display: flex;
+  justify-content: center; */
   align-items: center;
   min-height: 100vh;
   padding: 20px;
@@ -531,3 +531,821 @@ body {
     font-size: 11px;
   }
 }
+.weather-animation-container {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  margin-top: 5px;
+  overflow: hidden;
+  border-radius: 0 0 20px 20px;
+}
+
+/* Common Animation Styles */
+.weather-animation {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  bottom: 0;
+  left: 0;
+}
+
+/* Sunny Animation */
+.sunny-animation {
+  background: linear-gradient(to top, #ffdb58, #87ceeb);
+}
+
+.sun {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: #ffd700;
+  border-radius: 50%;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 20px 5px rgba(255, 215, 0, 0.8);
+  animation: sun-pulse 3s infinite alternate;
+}
+
+.rays {
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  right: -15px;
+  bottom: -15px;
+  border-radius: 50%;
+  animation: sun-rays 8s linear infinite;
+  background: radial-gradient(circle, transparent 50%, rgba(255, 215, 0, 0.3) 50%);
+}
+
+@keyframes sun-pulse {
+  0% {
+    transform: scale(0.95) translateX(-50%);
+    box-shadow: 0 0 20px 5px rgba(255, 215, 0, 0.7);
+  }
+  100% {
+    transform: scale(1.05) translateX(-50%);
+    box-shadow: 0 0 30px 8px rgba(255, 215, 0, 0.9);
+  }
+}
+
+@keyframes sun-rays {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Cloudy Animation */
+.cloudy-animation {
+  background: linear-gradient(to top, #e6e6e6, #87ceeb);
+}
+
+.cloud {
+  position: absolute;
+  background: #fff;
+  border-radius: 40px;
+  opacity: 0.9;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.cloud:before, .cloud:after {
+  content: '';
+  position: absolute;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.cloud1 {
+  width: 110px;
+  height: 40px;
+  top: 30px;
+  left: 20%;
+  animation: cloud-drift 25s linear infinite;
+}
+
+.cloud1:before {
+  width: 50px;
+  height: 50px;
+  top: -25px;
+  left: 25px;
+}
+
+.cloud1:after {
+  width: 40px;
+  height: 40px;
+  top: -20px;
+  right: 20px;
+}
+
+.cloud2 {
+  width: 90px;
+  height: 35px;
+  top: 60px;
+  left: 55%;
+  animation: cloud-drift 20s linear infinite reverse;
+}
+
+.cloud2:before {
+  width: 40px;
+  height: 40px;
+  top: -20px;
+  left: 15px;
+}
+
+.cloud2:after {
+  width: 35px;
+  height: 35px;
+  top: -15px;
+  right: 15px;
+}
+
+.cloud3 {
+  width: 70px;
+  height: 30px;
+  top: 25px;
+  left: 75%;
+  animation: cloud-drift 30s linear infinite;
+}
+
+.cloud3:before {
+  width: 35px;
+  height: 35px;
+  top: -15px;
+  left: 10px;
+}
+
+.cloud3:after {
+  width: 30px;
+  height: 30px;
+  top: -15px;
+  right: 10px;
+}
+
+@keyframes cloud-drift {
+  0% {
+    transform: translateX(-50px);
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(400px);
+    opacity: 0.7;
+  }
+}
+
+/* Rainy Animation */
+.rainy-animation {
+  background: linear-gradient(to top, #6e7a85, #a3adb8);
+}
+
+.rain-cloud {
+  width: 130px;
+  height: 45px;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #9fa9b5;
+}
+
+.rain-cloud:before {
+  width: 60px;
+  height: 60px;
+  top: -30px;
+  left: 30px;
+  background: #9fa9b5;
+}
+
+.rain-cloud:after {
+  width: 50px;
+  height: 50px;
+  top: -25px;
+  right: 25px;
+  background: #9fa9b5;
+}
+
+.rain-container {
+  position: absolute;
+  width: 100%;
+  height: 80px;
+  bottom: 0;
+}
+
+.raindrop {
+  position: absolute;
+  width: 2px;
+  height: 15px;
+  background: rgba(174, 194, 224, 0.8);
+  border-radius: 10px;
+  animation: rainfall 1s linear infinite;
+}
+
+@keyframes rainfall {
+  0% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(80px);
+    opacity: 0.3;
+  }
+}
+
+/* Snowy Animation */
+.snowy-animation {
+  background: linear-gradient(to top, #e5e9f0, #d0d6e2);
+}
+
+.snow-cloud {
+  width: 130px;
+  height: 45px;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #c4c9d4;
+}
+
+.snow-cloud:before {
+  width: 60px;
+  height: 60px;
+  top: -30px;
+  left: 30px;
+  background: #c4c9d4;
+}
+
+.snow-cloud:after {
+  width: 50px;
+  height: 50px;
+  top: -25px;
+  right: 25px;
+  background: #c4c9d4;
+}
+
+.snow-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.snowflake {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+  top: 40px;
+  animation: snowfall 6s linear infinite;
+}
+
+@keyframes snowfall {
+  0% {
+    transform: translateY(-10px) rotate(0deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(80px) rotate(360deg);
+    opacity: 0.3;
+  }
+}
+
+/* Drizzle Animation */
+.drizzle-animation {
+  background: linear-gradient(to top, #9eacba, #b8c6d2);
+}
+
+.drizzle-cloud {
+  width: 130px;
+  height: 45px;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #b0bac6;
+}
+
+.drizzle-cloud:before {
+  width: 60px;
+  height: 60px;
+  top: -30px;
+  left: 30px;
+  background: #b0bac6;
+}
+
+.drizzle-cloud:after {
+  width: 50px;
+  height: 50px;
+  top: -25px;
+  right: 25px;
+  background: #b0bac6;
+}
+
+.drizzle-container {
+  position: absolute;
+  width: 100%;
+  height: 80px;
+  bottom: 0;
+}
+
+.drizzle-drop {
+  position: absolute;
+  width: 2px;
+  height: 10px;
+  background: rgba(180, 215, 255, 0.7);
+  border-radius: 10px;
+  animation: drizzle 2s linear infinite;
+}
+
+@keyframes drizzle {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(60px);
+    opacity: 0.2;
+  }
+}
+
+/* Add these styles to your weather.css file */
+
+/* Weather Animation Container positioned below the weather container */
+.weather-animation-container {
+    width: 100%;  /* Match width to weather container or adjust as needed */
+    height: 120px;
+    /* margin: 20px auto 0;  Top margin to create space between containers */
+    overflow: hidden;
+    border-radius: 20px;
+    position: relative;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+  }
+  
+  /* Common Animation Styles */
+  .weather-animation {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    left: 0;
+  }
+  
+  /* Sunny Animation */
+  .sunny-animation {
+    background: linear-gradient(to top, #ffdb58, #87ceeb);
+  }
+  
+  .sun {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: #ffd700;
+    border-radius: 50%;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 0 20px 5px rgba(255, 215, 0, 0.8);
+    animation: sun-pulse 3s infinite alternate;
+  }
+  
+  .rays {
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    right: -15px;
+    bottom: -15px;
+    border-radius: 50%;
+    animation: sun-rays 8s linear infinite;
+    background: radial-gradient(circle, transparent 50%, rgba(255, 215, 0, 0.3) 50%);
+  }
+  
+  @keyframes sun-pulse {
+    0% {
+      transform: scale(0.95) translateX(-50%);
+      box-shadow: 0 0 20px 5px rgba(255, 215, 0, 0.7);
+    }
+    100% {
+      transform: scale(1.05) translateX(-50%);
+      box-shadow: 0 0 30px 8px rgba(255, 215, 0, 0.9);
+    }
+  }
+  
+  @keyframes sun-rays {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* Cloudy Animation */
+  .cloudy-animation {
+    background: linear-gradient(to top, #e6e6e6, #87ceeb);
+  }
+  
+  .cloud {
+    position: absolute;
+    background: #fff;
+    border-radius: 40px;
+    opacity: 0.9;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .cloud:before, .cloud:after {
+    content: '';
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+  }
+  
+  .cloud1 {
+    width: 110px;
+    height: 40px;
+    top: 30px;
+    left: 20%;
+    animation: cloud-drift 25s linear infinite;
+  }
+  
+  .cloud1:before {
+    width: 50px;
+    height: 50px;
+    top: -25px;
+    left: 25px;
+  }
+  
+  .cloud1:after {
+    width: 40px;
+    height: 40px;
+    top: -20px;
+    right: 20px;
+  }
+  
+  .cloud2 {
+    width: 90px;
+    height: 35px;
+    top: 60px;
+    left: 55%;
+    animation: cloud-drift 20s linear infinite reverse;
+  }
+  
+  .cloud2:before {
+    width: 40px;
+    height: 40px;
+    top: -20px;
+    left: 15px;
+  }
+  
+  .cloud2:after {
+    width: 35px;
+    height: 35px;
+    top: -15px;
+    right: 15px;
+  }
+  
+  .cloud3 {
+    width: 70px;
+    height: 30px;
+    top: 25px;
+    left: 75%;
+    animation: cloud-drift 30s linear infinite;
+  }
+  
+  .cloud3:before {
+    width: 35px;
+    height: 35px;
+    top: -15px;
+    left: 10px;
+  }
+  
+  .cloud3:after {
+    width: 30px;
+    height: 30px;
+    top: -15px;
+    right: 10px;
+  }
+  
+  @keyframes cloud-drift {
+    0% {
+      transform: translateX(-50px);
+      opacity: 0.7;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(400px);
+      opacity: 0.7;
+    }
+  }
+  
+  /* Rainy Animation */
+  .rainy-animation {
+    background: linear-gradient(to top, #6e7a85, #a3adb8);
+  }
+  
+  .rain-cloud {
+    width: 130px;
+    height: 45px;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #9fa9b5;
+  }
+  
+  .rain-cloud:before {
+    width: 60px;
+    height: 60px;
+    top: -30px;
+    left: 30px;
+    background: #9fa9b5;
+  }
+  
+  .rain-cloud:after {
+    width: 50px;
+    height: 50px;
+    top: -25px;
+    right: 25px;
+    background: #9fa9b5;
+  }
+  
+  .rain-container {
+    position: absolute;
+    width: 100%;
+    height: 80px;
+    bottom: 0;
+  }
+  
+  .raindrop {
+    position: absolute;
+    width: 2px;
+    height: 15px;
+    background: rgba(174, 194, 224, 0.8);
+    border-radius: 10px;
+    animation: rainfall 1s linear infinite;
+  }
+  
+  @keyframes rainfall {
+    0% {
+      transform: translateY(-50px);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(80px);
+      opacity: 0.3;
+    }
+  }
+  
+  /* Snowy Animation */
+  .snowy-animation {
+    background: linear-gradient(to top, #e5e9f0, #d0d6e2);
+  }
+  
+  .snow-cloud {
+    width: 130px;
+    height: 45px;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #c4c9d4;
+  }
+  
+  .snow-cloud:before {
+    width: 60px;
+    height: 60px;
+    top: -30px;
+    left: 30px;
+    background: #c4c9d4;
+  }
+  
+  .snow-cloud:after {
+    width: 50px;
+    height: 50px;
+    top: -25px;
+    right: 25px;
+    background: #c4c9d4;
+  }
+  
+  .snow-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .snowflake {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+    top: 40px;
+    animation: snowfall 6s linear infinite;
+  }
+  
+  @keyframes snowfall {
+    0% {
+      transform: translateY(-10px) rotate(0deg);
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(80px) rotate(360deg);
+      opacity: 0.3;
+    }
+  }
+  
+  /* Drizzle Animation */
+  .drizzle-animation {
+    background: linear-gradient(to top, #9eacba, #b8c6d2);
+  }
+  
+  .drizzle-cloud {
+    width: 130px;
+    height: 45px;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #b0bac6;
+  }
+  
+  .drizzle-cloud:before {
+    width: 60px;
+    height: 60px;
+    top: -30px;
+    left: 30px;
+    background: #b0bac6;
+  }
+  
+  .drizzle-cloud:after {
+    width: 50px;
+    height: 50px;
+    top: -25px;
+    right: 25px;
+    background: #b0bac6;
+  }
+  
+  .drizzle-container {
+    position: absolute;
+    width: 100%;
+    height: 80px;
+    bottom: 0;
+  }
+  
+  .drizzle-drop {
+    position: absolute;
+    width: 2px;
+    height: 10px;
+    background: rgba(180, 215, 255, 0.7);
+    border-radius: 10px;
+    animation: drizzle 2s linear infinite;
+  }
+  
+  @keyframes drizzle {
+    0% {
+      transform: translateY(-20px);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(60px);
+      opacity: 0.2;
+    }
+  }
+  /* First, let's modify the container structure */
+.weather-container {
+    position: relative;
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Remove the background color since animation will be the background */
+    background-color: transparent;
+  }
+  
+  /* Make the animation container a full-page background */
+  .weather-animation-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border-radius: 0;
+    z-index: 1;
+  }
+  
+  /* Update the animations to fill the entire background */
+  .weather-animation {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    left: 0;
+  }
+  
+  /* Adjust animation elements to work in full page */
+  .sun {
+    top: 15%;
+    width: 80px;
+    height: 80px;
+  }
+  
+  .cloud1 {
+    top: 20%;
+  }
+  
+  .cloud2 {
+    top: 35%;
+  }
+  
+  .cloud3 {
+    top: 15%;
+  }
+  
+  .rain-cloud, .snow-cloud, .drizzle-cloud {
+    top: 15%;
+  }
+  
+  .rain-container, .snow-container, .drizzle-container {
+    height: 70%;
+  }
+  
+  /* Update the weather card to have a blur background and sit on top */
+  .weather {
+    width: 90%;
+    max-width: 500px;
+    margin: auto;
+    padding: 35px;
+    border-radius: var(--border-radius);
+    background: rgba(20, 30, 48, 0.7); /* Darker semi-transparent background */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    position: relative;
+    z-index: 2; /* Place above the animation */
+  }
+  
+  /* Remove the previous background pattern */
+  .weather::before {
+    display: none;
+  }
+  
+  /* Update search bar for better visibility on blur background */
+  .searchbar {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+  }
+  
+  /* Add a subtle glass effect to data section */
+  .data {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  /* Enhance visibility for text elements */
+  .temp, .location {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Add responsive adjustments for the new layout */
+  @media (max-width: 768px) {
+    .weather {
+      width: 95%;
+      padding: 25px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .weather {
+      width: 100%;
+      padding: 20px;
+    }
+    
+    .sun {
+      width: 60px;
+      height: 60px;
+    }
+  }

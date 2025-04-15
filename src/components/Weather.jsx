@@ -18,6 +18,7 @@ export default function Weather() {
   const [isListening, setIsListening] = useState(false);
   const [voiceWaveAmplitudes, setVoiceWaveAmplitudes] = useState([0.3, 0.5, 0.7, 0.5, 0.3]);
   const [inputValue, setInputValue] = useState("");
+  const [weatherCode, setWeatherCode] = useState("");
   const inputRef = useRef(null);
   const recognitionRef = useRef(null);
   const animationRef = useRef(null);
@@ -50,7 +51,10 @@ export default function Weather() {
       const url = mode == "city" ? CITY : ZIP;
       const res = await fetch(url).then((res) => res.json());
 
-      const icons = allIcons[res.weather[0].icon] || clear;
+      const iconCode = res.weather[0].icon;
+      const icons = allIcons[iconCode] || clear;
+      
+      setWeatherCode(iconCode);
       setWeather({
         humidity: res.main.humidity,
         temp: Math.floor(res.main.temp),
@@ -181,81 +185,167 @@ export default function Weather() {
     }
   }, [inputValue]);
 
+  // Weather animation components
+  const SunnyAnimation = () => (
+    <div className="weather-animation sunny-animation">
+      <div className="sun">
+        <div className="rays"></div>
+      </div>
+    </div>
+  );
+
+  const CloudyAnimation = () => (
+    <div className="weather-animation cloudy-animation">
+      <div className="cloud cloud1"></div>
+      <div className="cloud cloud2"></div>
+      <div className="cloud cloud3"></div>
+    </div>
+  );
+
+  const RainyAnimation = () => (
+    <div className="weather-animation rainy-animation">
+      <div className="cloud rain-cloud"></div>
+      <div className="rain-container">
+        {Array(20).fill().map((_, i) => (
+          <div key={i} className="raindrop" style={{ 
+            left: `${Math.random() * 100}%`, 
+            animationDelay: `${Math.random() * 2}s` 
+          }}></div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const SnowyAnimation = () => (
+    <div className="weather-animation snowy-animation">
+      <div className="cloud snow-cloud"></div>
+      <div className="snow-container">
+        {Array(30).fill().map((_, i) => (
+          <div key={i} className="snowflake" style={{ 
+            left: `${Math.random() * 100}%`, 
+            animationDelay: `${Math.random() * 5}s` 
+          }}></div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const DrizzleAnimation = () => (
+    <div className="weather-animation drizzle-animation">
+      <div className="cloud drizzle-cloud"></div>
+      <div className="drizzle-container">
+        {Array(15).fill().map((_, i) => (
+          <div key={i} className="drizzle-drop" style={{ 
+            left: `${Math.random() * 100}%`, 
+            animationDelay: `${Math.random() * 3}s` 
+          }}></div>
+        ))}
+      </div>
+    </div>
+  );
+
+  // Render the appropriate animation based on weather code
+  const renderWeatherAnimation = () => {
+    if (!weatherCode) return null;
+    
+    if (weatherCode.startsWith('01')) {
+      return <SunnyAnimation />;
+    } else if (weatherCode.startsWith('02') || weatherCode.startsWith('03') || weatherCode.startsWith('04')) {
+      return <CloudyAnimation />;
+    } else if (weatherCode.startsWith('09') || weatherCode.startsWith('10')) {
+      return <RainyAnimation />;
+    } else if (weatherCode.startsWith('13')) {
+      return <SnowyAnimation />;
+    } else if (weatherCode.startsWith('04')) {
+      return <DrizzleAnimation />;
+    }
+    
+    return null;
+  };
+
   return (
-    <div className="weather-container">
-      <div className="weather">
-        <div className="search-section">
-          <form className="searchbar" onSubmit={handleSubmit}>
-            {isListening ? (
-              <div className="voice-wave">
-                {voiceWaveAmplitudes.map((amplitude, index) => (
-                  <div 
-                    key={index} 
-                    className="wave-bar" 
-                    style={{ height: `${amplitude * 40}px` }}
-                  ></div>
-                ))}
-                <span className="listening-text">Listening...</span>
-              </div>
-            ) : (
-              <input
-                type="text"
-                ref={inputRef}
-                value={inputValue}
-                onChange={handleInputChange}
-                placeholder={`Search by ${mode}`}
-                id="city"
-              />
-            )}
-
-            <div className="search-controls">
-              <button 
-                type="button" 
-                className={`icon-button mic ${isListening ? 'active' : ''}`} 
-                onClick={isListening ? stopListening : VoiceRecognition}
-              >
-                <img src={mic} alt="Microphone" />
-              </button>
-              <button type="submit" className="icon-button">
-                <img src={Search} alt="Search" />
-              </button>
-            </div>
-          </form>
-          <button className="mode-toggle" onClick={handleModeToggle}>
-            Switch to {mode === "city" ? "zipcode" : "city"}
-          </button>
+    <>
+      <div className="weather-container">
+        {/* Weather animation as background */}
+        <div className="weather-animation-container">
+          {renderWeatherAnimation()}
         </div>
-
-        <div className="weather-display">
-          <div className="weather-main">
-            <img src={weatherData.icon} alt="" className="weather-icon" />
-            <div className="weather-info">
-              <p className="temp">{weatherData.temp}<span>°C</span></p>
-              <p className="feels-like">Feels like: {weatherData.feels_like}°C</p>
-              <p className="description">{weatherData.description}</p>
-            </div>
+        
+        {/* Weather card with blur effect on top */}
+        <div className="weather">
+          <div className="search-section">
+            <form className="searchbar" onSubmit={handleSubmit}>
+              {isListening ? (
+                <div className="voice-wave">
+                  {voiceWaveAmplitudes.map((amplitude, index) => (
+                    <div 
+                      key={index} 
+                      className="wave-bar" 
+                      style={{ height: `${amplitude * 40}px` }}
+                    ></div>
+                  ))}
+                  <span className="listening-text">Listening...</span>
+                </div>
+              ) : (
+                <input
+                  type="text"
+                  ref={inputRef}
+                  value={inputValue}
+                  onChange={handleInputChange}
+                  placeholder={`Search by ${mode}`}
+                  id="city"
+                />
+              )}
+  
+              <div className="search-controls">
+                <button 
+                  type="button" 
+                  className={`icon-button mic ${isListening ? 'active' : ''}`} 
+                  onClick={isListening ? stopListening : VoiceRecognition}
+                >
+                  <img src={mic} alt="Microphone" />
+                </button>
+                <button type="submit" className="icon-button">
+                  <img src={Search} alt="Search" />
+                </button>
+              </div>
+            </form>
+            <button className="mode-toggle" onClick={handleModeToggle}>
+              Switch to {mode === "city" ? "zipcode" : "city"}
+            </button>
           </div>
-          
-          <p className="location">{weatherData.location}</p>
-          
-          <div className="data">
-            <div className="col">
-              <img src={humidity} alt="Humidity" />
-              <div>
-                <p>{weatherData.humidity}%</p>
-                <span>Humidity</span>
+  
+          <div className="weather-display">
+            <div className="weather-main">
+              <img src={weatherData.icon} alt="" className="weather-icon" />
+              <div className="weather-info">
+                <p className="temp">{weatherData.temp}<span>°C</span></p>
+                <p className="feels-like">Feels like: {weatherData.feels_like}°C</p>
+                <p className="description">{weatherData.description}</p>
               </div>
             </div>
-            <div className="col">
-              <img src={wind} alt="Wind" />
-              <div>
-                <p>{weatherData.speed} km/h</p>
-                <span>Wind Speed</span>
+            
+            <p className="location">{weatherData.location}</p>
+            
+            <div className="data">
+              <div className="col">
+                <img src={humidity} alt="Humidity" />
+                <div>
+                  <p>{weatherData.humidity}%</p>
+                  <span>Humidity</span>
+                </div>
+              </div>
+              <div className="col">
+                <img src={wind} alt="Wind" />
+                <div>
+                  <p>{weatherData.speed} km/h</p>
+                  <span>Wind Speed</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
