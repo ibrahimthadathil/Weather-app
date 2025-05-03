@@ -1,6 +1,6 @@
 # First stage: Build the app
 
-FROM node:20-alpine
+FROM node:20-alpine AS build
 
 WORKDIR /app
 
@@ -16,10 +16,12 @@ RUN npm run build
 # Second stage : Run the app
 FROM node:20-alpine
 
-npm install package -g serve
+RUN npm install -g serve
 
 WORKDIR /app
+ 
+COPY --from=build /app/dist ./dist
 
 EXPOSE 5173
 
-CMD ['serve','-s','dist']
+CMD ["serve","-s","dist","-l", "5173"] 
